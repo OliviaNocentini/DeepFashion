@@ -13,7 +13,7 @@ from torchvision import transforms, utils
 import warnings
 warnings.filterwarnings("ignore")
 
-
+#example taken from https://pytorch.org/tutorials/beginner/data_loading_tutorial.html
 
 class FaceLandmarksDataset(Dataset):
     """Face Landmarks dataset."""
@@ -54,7 +54,7 @@ class FaceLandmarksDataset(Dataset):
 
 
 def collate_fn_padd(batch):
-    # Please check https://discuss.pytorch.org/t/how-to-create-a-dataloader-with-variable-size-input/8278/2
+    # Example taken from  https://discuss.pytorch.org/t/how-to-create-a-dataloader-with-variable-size-input/8278/2
     data = [item[0] for item in batch]
     target = [item[1] for item in batch]
     target = torch.LongTensor(target)
@@ -64,8 +64,12 @@ def collate_fn_padd(batch):
 batch_size = 2**5
 
 
+#loading the train_set
+
 face_dataset = FaceLandmarksDataset(csv_file='/home/oli/datasets/DeepFashion/Category_and_Attribute_Prediction_Benchmark/Anno_coarse/list_category_img.txt',
                                     root_dir='/home/oli/datasets/DeepFashion/Category_and_Attribute_Prediction_Benchmark/img')
+                                    
+# creating the train_loader
 
 train_loader = torch.utils.data.DataLoader(face_dataset, batch_size=batch_size, collate_fn=collate_fn_padd)
 
@@ -73,6 +77,7 @@ dataiter = iter(train_loader)
 print(dataiter)
 images,labels =dataiter.next()
 
+#showing the first 8 pictures of the dataset
 
 fig = plt.figure()
 for i in range(len(images)):
